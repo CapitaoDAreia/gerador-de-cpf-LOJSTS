@@ -109,12 +109,18 @@ var GeraCPF = /*#__PURE__*/function () {
       return digitos;
     }
   }, {
+    key: "formatCPF",
+    value: function formatCPF(cpf) {
+      return cpf.slice(0, 3) + '-' + cpf.slice(3, 6) + '.' + cpf.slice(6, 9) + '-' + cpf.slice(9, 11);
+    }
+  }, {
     key: "geraUmCPF",
     value: function geraUmCPF() {
       var cpfSemDigito = this.rand();
       var digito1 = _CPF__WEBPACK_IMPORTED_MODULE_0__["default"].retornaDigito(cpfSemDigito);
       var digito2 = _CPF__WEBPACK_IMPORTED_MODULE_0__["default"].retornaDigito(cpfSemDigito + digito1);
-      return cpfSemDigito + digito1 + digito2;
+      var retorno = this.formatCPF(cpfSemDigito + digito1 + digito2);
+      return retorno;
     }
   }]);
 
@@ -144,7 +150,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #0c5858;\n  color: #0c5858;\n  display: flex;\n  justify-content: center;\n}\nbody section {\n  margin-top: 1rem;\n  padding: 2rem 5rem;\n  background-color: #FFFFFF;\n  border-radius: 5px;\n}\n\n/*# sourceMappingURL=styles.css.map */\n", "",{"version":3,"sources":["webpack://./src/assets/css/index.scss","webpack://./src/assets/css/styles.css"],"names":[],"mappings":"AAAA;EACI,UAAA;EACA,SAAA;EACA,sBAAA;ACCJ;;ADCA;EACI,yBAAA;EACA,cAAA;EACA,aAAA;EACA,uBAAA;ACEJ;ADDI;EACI,gBAAA;EACA,kBAAA;EACA,yBAAA;EACA,kBAAA;ACGR;;AAEA,qCAAqC","sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #0c5858;\n  color: #0c5858;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  font-size: 1.2rem;\n}\nbody h1 {\n  color: #FFFFFF;\n  margin-top: 1.5rem;\n}\nbody section {\n  width: 400px;\n  padding: 10px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5rem;\n  background-color: #FFFFFF;\n  border-radius: 5px;\n}\nbody section h2 {\n  margin-bottom: 1rem;\n}\nbody section .gerar {\n  width: 170px;\n  height: 30px;\n  border-radius: 5px;\n}\nbody section .gerar:hover {\n  background-color: #1b7777;\n  color: #FFFFFF;\n}\nbody section .gerar:active {\n  background-color: #0c5858;\n}\nbody section .cpf-gerado {\n  border: #0c5858 1px solid;\n  margin-top: 1.5rem;\n  margin-bottom: 1.5rem;\n  width: 250px;\n  min-height: 35px;\n  padding: 5px;\n  display: flex;\n  justify-content: center;\n}\nbody section .historico {\n  height: 200px;\n  width: 200px;\n  overflow-y: scroll;\n}\n\n/*# sourceMappingURL=styles.css.map */\n", "",{"version":3,"sources":["webpack://./src/assets/css/index.scss","webpack://./src/assets/css/styles.css"],"names":[],"mappings":"AAAA;EACI,UAAA;EACA,SAAA;EACA,sBAAA;ACCJ;;ADEA;EACI,yBAAA;EACA,cAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,iBAAA;ACCJ;ADAI;EACI,cAAA;EACA,kBAAA;ACER;ADAI;EACI,YAAA;EACA,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,kBAAA;EACA,yBAAA;EACA,kBAAA;ACER;ADDQ;EACI,mBAAA;ACGZ;ADDQ;EACI,YAAA;EACA,YAAA;EACA,kBAAA;ACGZ;ADFY;EACI,yBAAA;EACA,cAAA;ACIhB;ADFY;EACI,yBAAA;ACIhB;ADAQ;EACI,yBAAA;EACA,kBAAA;EACA,qBAAA;EACA,YAAA;EACA,gBAAA;EACA,YAAA;EACA,aAAA;EACA,uBAAA;ACEZ;ADAQ;EACI,aAAA;EACA,YAAA;EACA,kBAAA;ACEZ;;AAEA,qCAAqC","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -737,12 +743,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assets_css_styles_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/css/styles.css */ "./src/assets/css/styles.css");
 
 
+var array = [];
+var gerador = new _modules_GeraCPF__WEBPACK_IMPORTED_MODULE_0__["default"]();
+var cpfGerado = document.querySelector('.cpf-gerado');
+var historico = document.querySelector('.historico');
+var count = 0;
 
-(function () {
-  var gerador = new _modules_GeraCPF__WEBPACK_IMPORTED_MODULE_0__["default"]();
-  var cpfGerado = document.querySelector('.cpf-gerado');
-  cpfGerado.innerHTML = gerador.geraUmCPF();
-})();
+function salvaItens(item) {
+  array.push(item);
+  count++;
+  if (count > 100) return;
+  historico.innerHTML += "".concat(count, ": ").concat(item, " </br>");
+}
+
+document.querySelector('.gerar').addEventListener('click', function () {
+  var newCPF = gerador.geraUmCPF();
+  cpfGerado.innerHTML = "CPF gerado: " + newCPF;
+  salvaItens(newCPF);
+});
 })();
 
 /******/ })()
