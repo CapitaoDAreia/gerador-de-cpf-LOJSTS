@@ -101,7 +101,12 @@ var GeraCPF = /*#__PURE__*/function () {
     value: function rand() {
       var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 100000000;
       var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 999999999;
-      return String(Math.floor(Math.random() * (max - min) + min));
+      var digitos = String(Math.floor(Math.random() * (max - min) + min));
+      var sequencia = Array.from(digitos).filter(function (numero) {
+        return digitos[0] === numero;
+      });
+      if (sequencia.length === digitos.length) return this.rand();
+      return digitos;
     }
   }, {
     key: "geraUmCPF",
